@@ -1,0 +1,61 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": [
+    "**/.env.*local",
+    "**/tsconfig*.json"
+  ],
+  "globalPassThroughEnv": [
+    "NODE_ENV",
+    "PORT",
+    "HOST",
+    "CORS_ORIGIN",
+    "COMMON_RATE_LIMIT_WINDOW_MS",
+    "COMMON_RATE_LIMIT_MAX_REQUESTS",
+    "SESSION_SECRET",
+    "DATABASE_URL",
+    "SERVICEM8_API_KEY"
+  ],
+  "tasks": {
+    "codegen": {
+      "cache": true,
+      "outputs": [
+        "src/generated/**"
+      ]
+    },
+    "build": {
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "build-force": {
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "test": {},
+    "test-unit": {},
+    "lint": {
+      "env": [
+        "TIMING"
+      ]
+    },
+    "lint-styles": {},
+    "typecheck": {},
+    "build-storybook": {},
+    "clean": {
+      "cache": false
+    },
+    "check-dist": {
+      "dependsOn": [
+        "build-force",
+        "build"
+      ]
+    },
+    "check-size": {
+      "dependsOn": [
+        "build-force",
+        "build"
+      ]
+    }
+  }
+}

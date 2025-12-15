@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id          Int       @id @default(autoincrement())
+  uuid        String    @unique
+  name        String
+  email       String    @unique
+  password    String
+  phoneNumber String    @map("phone_number")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  bookings    Booking[]
+
+  @@map("users")
+}
+
+model Session {
+  id      String @id
+  sess    String
+  expired Int
+
+  @@index([expired])
+  @@map("sessions")
+}
+
+model Booking {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @map("user_id")
+  title       String
+  description String?
+  status      String   @default("pending")
+  date        DateTime
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  attachments Attachment[]
+  messages    Message[]
+
+  @@map("bookings")
+}
+
+model Attachment {
+  id        Int      @id @default(autoincrement())
+  bookingId Int      @map("booking_id")
+  fileName  String   @map("file_name")
+  filePath  String   @map("file_path")
+  fileSize  Int      @map("file_size")
+  mimeType  String   @map("mime_type")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
+  @@map("attachments")
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  bookingId Int      @map("booking_id")
+  userId    Int      @map("user_id")
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  booking            Booking             @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  messageAttachments MessageAttachment[]
+
+  @@map("messages")
+}
+
+model MessageAttachment {
+  id        Int      @id @default(autoincrement())
+  messageId Int      @map("message_id")
+  fileName  String   @map("file_name")
+  filePath  String   @map("file_path")
+  fileSize  Int      @map("file_size")
+  mimeType  String   @map("mime_type")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@map("message_attachments")
+}
+

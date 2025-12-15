@@ -1,0 +1,37 @@
+{
+  "name": "ar-task",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "build:watch": "turbo run build:watch",
+    "check:exports": "turbo run check:exports",
+    "clean": "turbo run clean",
+    "lint": "turbo run lint",
+    "test:unit": "pnpm -r --if-present test:unit",
+    "test:integration": "pnpm -r --if-present test:integration",
+    "prepare": "is-ci || husky"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.16.4",
+    "@types/node": "20.9.0",
+    "husky": "^9.1.7",
+    "is-ci": "^3.0.1",
+    "lint-staged": "^15.2.11",
+    "rimraf": "^6.0.1",
+    "taze": "^0.17.2",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "engines": {
+    "node": ">=18.18.0",
+    "pnpm": ">=10.25.0"
+  },
+  "packageManager": "pnpm@10.25.0",
+  "pre-commit": "lint-staged",
+  "lint-staged": {
+    "*.{js,ts,cjs,mjs,md,json,jsonc}": "biome ci --no-errors-on-unmatched"
+  }
+}

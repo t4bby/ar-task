@@ -90,6 +90,33 @@
 
 ---
 
+## Reasoning behind your approach
+1. **Modular Architecture**
+    - Separation of concerns with distinct layers (controllers, services, models)
+    - Easier maintenance and scalability
+2. **Type Safety**
+    - TypeScript for both frontend and backend
+    - Zod for runtime validation
+3. **User Experience**
+    - Responsive design with shadcn/ui
+    - Real-time feedback with loading states 
+4. **Prisma + SQLite ORM**
+   - Type-safe ORM with migrations, SQLite for dev simplicity
+   - Zero-config database, PostgreSQL production path
+5. **Session-Based Auth (express-session)**
+   - Simpler than JWT for server-rendered apps
+   - Server-side session invalidation, CSRF protection
+6. **REST API**
+   - Standard HTTP semantics, easier ServiceM8 integration pattern
+   - Cacheable, tooling support, widely understood
+
+### Architectural Decisions
+- Separate apps - Frontend/backend can scale independently
+- Shared types - Reduce duplication, type safety across boundary
+- File uploads  - Multipart form-data over Base64 (efficiency)
+- Status enums  - Prevent invalid states, easy validation
+- UUID for ServiceM8 - External system IDs kept separate from internal
+
 ## 🚀 Potential Improvements
 
 ### Short-term Improvements (MVP+)
